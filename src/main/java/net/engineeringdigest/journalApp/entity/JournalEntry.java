@@ -1,8 +1,12 @@
 package net.engineeringdigest.journalApp.entity;
 
-public class JournalEntry {
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-    private long id;
+@Document
+public class JournalEntry {
+    @Id
+    private String id;
 
     private String title;
 
@@ -10,12 +14,12 @@ public class JournalEntry {
     private String content;
 
 
-    public long getId() {
+    public String getId() {
 
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(String id) {
 
         this.id = id;
     }
