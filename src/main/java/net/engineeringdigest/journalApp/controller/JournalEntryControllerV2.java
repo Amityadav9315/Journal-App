@@ -24,8 +24,12 @@ public class JournalEntryControllerV2 {
 
 
     @GetMapping       //localhost:8080/journal Get
-    public List<JournalEntry> getAll(){
-        return  journalEntryService.getAll();
+    public ResponseEntity<?> getAll(){
+        List<JournalEntry> all=journalEntryService.getAll();
+        if(all!=null && !all.isEmpty()){
+            return new ResponseEntity<>(all, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
     }
     @PostMapping       //  //localhost:8080/journal Post
