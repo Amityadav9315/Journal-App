@@ -18,22 +18,22 @@ public class UserService {
 
 
     @Autowired
-    private static UserRepository UserRepository;
+    private static UserRepository userRepository;
 
 
     public  void saveEntry(User user){
-        UserRepository.save(user);
+        userRepository.save(user);
     }
     public static List<User> getAll(){
-        return UserRepository.findAll();
+        return userRepository.findAll();
     }
     public Optional<User> findById(ObjectId id){
 
-        return UserRepository.findById(id);
+        return userRepository.findById(id);
     }
     public void deleteById(ObjectId id){
 
-        UserRepository.deleteById(id);
+        userRepository.deleteById(id);
     }
     public User findByUserName(String userName){
         return  userRepository.findByUserName(userName);

@@ -19,7 +19,7 @@ public class UserController {
 
     @GetMapping
     public List<User> getAllUsers(){
-        return UserService.getAll();
+        return userService.getAll();
     }
 
     @PostMapping
@@ -28,9 +28,9 @@ public class UserController {
     }
     @PutMapping
     public ResponseEntity<?> updateUser(@RequestBody User user){
-        User userInDb = userService.findByUserName(user.getUsername());
+        User userInDb = userService.findByUserName(user.getUserName());
         if(userInDb!=null){
-            userInDb.setUsername(user.getUsername());
+            userInDb.setUserName(user.getUserName());
             userInDb.setPassword(user.getPassword());
             userService.saveEntry(userInDb);
         }
