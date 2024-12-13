@@ -1,6 +1,5 @@
 package net.engineeringdigest.journalApp.controller;
 
-
 import net.engineeringdigest.journalApp.entity.User;
 import net.engineeringdigest.journalApp.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,26 +17,28 @@ public class UserController {
     private UserService userService;
 
     @GetMapping
-    public List<User> getAllUsers(){
+    public List<User> getAllUsers() {
         return userService.getAll();
     }
 
     @PostMapping
-    public  void createUser(@RequestBody User user){
+    public void createUser(@RequestBody User user) {
         userService.saveEntry(user);
     }
+
     @PutMapping
-    public ResponseEntity<?> updateUser(@RequestBody User user){
-        User userInDb = userService.findByUserName(user.getUserName());
-        if(userInDb!=null){
-            userInDb.setUserName(user.getUserName());
-            userInDb.setPassword(user.getPassword());
-            userService.saveEntry(userInDb);
-            System.out.println();
+    public ResponseEntity<?> updateUser(@RequestBody User user) {
+        try {
+            User userInDb = userService.findByUserName(user.getUserName());
+            if (userInDb != null) {
+                userInDb.setUserName(user.getUserName());
+                userInDb.setPassword(user.getPassword());
+                userService.saveEntry(userInDb);
+            }
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>("An error occurred", HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        return  new ResponseEntity<>(HttpStatus.NO_CONTENT);
-
     }
-
-
 }
