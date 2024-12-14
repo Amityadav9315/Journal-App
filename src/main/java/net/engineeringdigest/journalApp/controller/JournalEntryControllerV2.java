@@ -23,8 +23,8 @@ public class JournalEntryControllerV2 {
     private JournalEntryService journalEntryService;
 
 
-    @GetMapping       //localhost:8080/journal Get
-    public ResponseEntity<?> getAll(){
+    @GetMapping("{UserName}")      //localhost:8080/journal Get
+    public ResponseEntity<?> getAllJournalEntriesOfUser(@PathVariable String  userName){
         List<JournalEntry> all=journalEntryService.getAll();
         if(all!=null && !all.isEmpty()){
             return new ResponseEntity<>(all, HttpStatus.OK);

@@ -39,8 +39,8 @@ public class UserController {
         return new ResponseEntity<>("User created successfully", HttpStatus.CREATED);
     }
 
-    @PutMapping
-    public ResponseEntity<?> updateUser(@RequestBody User user) {
+    @PutMapping("/{userName}")
+    public ResponseEntity<?> updateUser(@RequestBody User user,@PathVariable String userName) {
         try {
             // Check if the user exists in the database
             User userInDb = userService.findByUserName(user.getUserName());
