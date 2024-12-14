@@ -2,7 +2,9 @@ package net.engineeringdigest.journalApp.controller;
 
 
 import net.engineeringdigest.journalApp.entity.JournalEntry;
+import net.engineeringdigest.journalApp.entity.User;
 import net.engineeringdigest.journalApp.service.JournalEntryService;
+import net.engineeringdigest.journalApp.service.UserService;
 import org.apache.coyote.Response;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,19 +23,22 @@ public class JournalEntryControllerV2 {
 
     @Autowired
     private JournalEntryService journalEntryService;
+    @Autowired
+    private UserService userService;
 
 
-    @GetMapping("{UserName}")      //localhost:8080/journal Get
+    @GetMapping("{userName}")      //localhost:8080/journal Get
     public ResponseEntity<?> getAllJournalEntriesOfUser(@PathVariable String  userName){
-        List<JournalEntry> all=journalEntryService.getAll();
+        User user=userService.findByUserName(userName);
+        List<JournalEntry> all=user.getJournalEntries();
         if(all!=null && !all.isEmpty()){
             return new ResponseEntity<>(all, HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
     }
-    @PostMapping       //  //localhost:8080/journal Post
-    public  ResponseEntity<JournalEntry> createEntry(@RequestBody JournalEntry myEntry){
+    @PostMapping("{userName}")       //  //localhost:8080/journal Post
+    public  ResponseEntity<JournalEntry> createEntry(@RequestBody JournalEntry myEntry,@PathVariable String userName){
         try {
             myEntry.setDate(LocalDateTime.now());
             journalEntryService.saveEntry(myEntry);
